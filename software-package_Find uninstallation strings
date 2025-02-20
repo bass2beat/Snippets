@@ -1,0 +1,7 @@
+Find uninstallation strings: 
+
+Get-wmiobject Win32_Product | where { $_.Name -like "*Adobe*"} 
+ 
+Or:
+
+(Get-wmiobject Win32_Product | where { $_.Name -eq "exact name of the app"}).uninstall() 
