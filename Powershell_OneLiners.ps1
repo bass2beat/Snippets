@@ -10,15 +10,18 @@
 # Show FQDN Hostname
 $myFQDN=(Get-WmiObject win32_computersystem).DNSHostName+"."+(Get-WmiObject win32_computersystem).Domain ; Write-Host $myFQDN
 
+
 # Show all System-Variables
 [environment]::GetEnvironmentVariables( )
 
+
 # Display local connections, ports and process owning the connection
 Get-NetTCPConnection | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, OwningProcess, @{Name="Process";Expression={(Get-Process -Id $_.OwningProcess).ProcessName}} | ogv
+
 
 # Display all Scheduled tasks and last runtime:
 Get-ScheduledTask | Select *,@{n='LastRunTime';e={$script:info=Get-ScheduledTaskInfo -InputObject $_;$script:info | Select -expand LastRunTime -EA 0}}
 
 
-
-
+# Download latest version SQL Server Management Studio
+$op = $ProgressPreference ; $ProgressPreference = 0 ; iwr https://aka.ms/ssmsfullsetup -OutFile ssmsfullsetup.exe ; $ProgressPreference = $op ; ls c:\<YourFolderOfChoice>\ssmsfullsetup.exe|select -expand versioninfo
