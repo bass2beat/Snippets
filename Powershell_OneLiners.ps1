@@ -25,3 +25,8 @@ Get-ScheduledTask | Select *,@{n='LastRunTime';e={$script:info=Get-ScheduledTask
 
 # Download latest version SQL Server Management Studio
 $op = $ProgressPreference ; $ProgressPreference = 0 ; iwr https://aka.ms/ssmsfullsetup -OutFile ssmsfullsetup.exe ; $ProgressPreference = $op ; ls c:\<YourFolderOfChoice>\ssmsfullsetup.exe|select -expand versioninfo
+
+
+# Change screen resolution on a HyperV Ubuntu linux machine (run command on host, change VM Name "Ubuntu" to your VM as shown in HyperV Manager)
+set-vmvideo Ubuntu -horizontalresolution:3840 -verticalresolution:2160 -resolutiontype single
+
