@@ -30,3 +30,20 @@ $op = $ProgressPreference ; $ProgressPreference = 0 ; iwr https://aka.ms/ssmsful
 # Change screen resolution on a HyperV Ubuntu linux machine (run command on host, change VM Name "Ubuntu" to your VM as shown in HyperV Manager)
 set-vmvideo Ubuntu -horizontalresolution:3840 -verticalresolution:2160 -resolutiontype single
 
+
+# Show running scheduled tasks
+(get-scheduledtask).where({$_.state -eq 'running'})
+
+
+# Show last boot time
+Get-WmiObject win32_operatingsystem |select @{Name="Last Boot Time"; Expression={$_.ConvertToDateTime($_.LastBootUpTime)}}, PSComputerName
+
+
+# Find admin shares
+Gwmi Win32_Share|%{"\\$($_|% P*e)\$($_.Name)"}
+
+
+# List all installed applications
+Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table –AutoSize
+
+
